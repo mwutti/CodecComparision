@@ -3,6 +3,7 @@ import os
 import numpy
 import scipy.misc
 import PSNR
+import FileSplitter
 
 if len(sys.argv) != 3:
     print("must have 2 arguments: #" + str(len(sys.argv) - 1))
@@ -13,6 +14,8 @@ input_folder = args[1];
 output_folder = args[2];
 
 working_directory = os.path.dirname(os.path.abspath(__file__))
+
+# FileSplitter.splitVideoIntoFrames();
 
 image_ref1 = 'image1.jpg'
 image_ref2 = 'image2.jpg'
