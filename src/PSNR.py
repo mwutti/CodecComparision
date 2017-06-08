@@ -1,6 +1,5 @@
 import math
 import numpy
-import scipy.misc
 
 def psnr(image1, image2):
     mse = numpy.mean((image1 - image2) ** 2)

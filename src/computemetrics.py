@@ -135,9 +135,9 @@ for videoFolder in videoFolders:
             shutil.rmtree(os.path.join(h265Path, "tmp"))
 
 print("test")
-#image1 = scipy.misc.imread(image_ref1, flatten=True).astype(numpy.float32)
-#image2 = scipy.misc.imread(image_ref2, flatten=True).astype(numpy.float32)
 
+
+def
 
 
 
