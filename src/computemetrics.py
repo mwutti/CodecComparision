@@ -30,16 +30,33 @@ for videoFolder in videoFolders:
     FileSplitter.splitVideoIntoFrames(rawFile)
 
     bitrates = []
+    psnrs = []
 
-    files = os.listdir(av1Path)
-    for file in files:
-        bitrate = file.split("_")[0]
+    AV1files = os.listdir(av1Path)
+    RAWFiles = os.listdir(os.path.join(rawPath, "tmp"))
+    RAWFiles.sort()
+    for av1File in AV1files:
+        bitrate = av1File.split("_")[0]
         if(bitrate.isdigit()):
             bitrates.append(int(bitrate))
 
     bitrates.sort()
 
-    #now split vids
+    # split vids
+    for bitrate in bitrates:
+        for av1File in AV1files:
+            if av1File.startswith(str(bitrate)):
+                FileSplitter.splitVideoIntoFrames(os.path.join(av1Path,av1File))
+                break
+        # compute psnr && remove tmp folder for av1
+        AV1Tmpfiles = os.listdir(os.path.join(av1Path, "tmp"))
+        AV1Tmpfiles.sort()
+        for i in range(1, len(RAWFiles)):
+            imageRaw = scipy.misc.imread(os.path.join(rawPath, "tmp", RAWFiles[i]), flatten=True).astype(numpy.float32)
+            imageEnc = scipy.misc.imread(os.path.join(av1Path, "tmp", AV1Tmpfiles[i]), flatten=True).astype(numpy.float32)
+            psnrs[i] = PSNR.psnr(imageRaw, imageEnc)
+        meanpsnr = numpy.mean(psnrs)
+        print("AV1 mean psnr: " + str(meanpsnr))
 
 print("test")
 #image1 = scipy.misc.imread(image_ref1, flatten=True).astype(numpy.float32)
