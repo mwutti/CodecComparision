@@ -22,8 +22,8 @@ def bdsnr(metric_set1, metric_set2):
   rate2 = [x[0] for x in metric_set2]
   psnr2 = [x[1] for x in metric_set2]
 
-  log_rate1 = map(math.log, rate1)
-  log_rate2 = map(math.log, rate2)
+  log_rate1 = list(map(math.log, rate1))
+  log_rate2 = list(map(math.log, rate2))
 
   # Best cubic poly fit for graph represented by log_ratex, psrn_x.
   poly1 = numpy.polyfit(log_rate1, psnr1, 3)

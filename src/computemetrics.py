@@ -4,7 +4,8 @@ import numpy
 import scipy.misc
 import pickle
 import shutil
-import pylab
+import matplotlib.pyplot as pl
+from scipy.interpolate import spline
 import PSNR
 import FileSplitter
 import BDMetric
@@ -77,6 +78,10 @@ for videoFolder in videoFolders:
                 if av1File.startswith(str(bitrate)):
                     FileSplitter.splitVideoIntoFrames(os.path.join(av1Path,av1File))
                     break
+
+            av1results = []
+            h265results = []
+
             # compute psnr && remove tmp folder for av1
             AV1Tmpfiles = sorted(listdir_nohidden(os.path.join(av1Path, "tmp")))
 
@@ -97,10 +102,10 @@ for videoFolder in videoFolders:
                     pickle.dump(result, f, pickle.HIGHEST_PROTOCOL)
             else:
                 with open(outFile, 'rb') as f:
-                    tmpresult = pickle.load(f)
-                    tmpresult.append(result[0])
+                    av1results = pickle.load(f)
+                    av1results.append(result[0])
                 with open(outFile, 'wb') as f:
-                    pickle.dump(tmpresult, f, pickle.HIGHEST_PROTOCOL)
+                    pickle.dump(av1results, f, pickle.HIGHEST_PROTOCOL)
 
             print("AV1 mean psnr: " + str(meanpsnr) + " - Bitrate: " + str(bitrate) + " - Folder" + av1Path)
             shutil.rmtree(os.path.join(av1Path, "tmp"))
@@ -130,10 +135,10 @@ for videoFolder in videoFolders:
                     pickle.dump(result, f, pickle.HIGHEST_PROTOCOL)
             else:
                 with open(outFile, 'rb') as f:
-                    tmpresult = pickle.load(f)
-                    tmpresult.append(result)
+                    h265results = pickle.load(f)
+                    h265results.append(result)
                 with open(outFile, 'wb') as f:
-                    pickle.dump(tmpresult, f, pickle.HIGHEST_PROTOCOL)
+                    pickle.dump(h265results, f, pickle.HIGHEST_PROTOCOL)
 
             print("H265 mean psnr: " + str(meanpsnr) + " - Bitrate: " + str(bitrate) + " - Folder" + h265Path)
             shutil.rmtree(os.path.join(h265Path, "tmp"))
@@ -158,6 +163,29 @@ for videoFolder in videoFolders:
                 metric_set_2.append([result['bitrate'], result['meanpsnr']])
 
         bdsnr = BDMetric.bdsnr(metric_set_1, metric_set_2)
+
+        rate1 = [x[0] for x in metric_set_1]
+        psnr1 = [x[1] for x in metric_set_1]
+        rate2 = [x[0] for x in metric_set_2]
+        psnr2 = [x[1] for x in metric_set_2]
+
+        fig, ax = pl.subplots()
+
+        newPsnr1 = numpy.linspace(min(psnr1), max(psnr1), 100)
+        ax.plot(newPsnr1, spline(psnr1, rate1, newPsnr1), label="AV1")
+
+        newPsnr2 = numpy.linspace(min(psnr2), max(psnr2), 100)
+        ax.plot(newPsnr2, spline(psnr2, rate2, newPsnr2), label="H265")
+
+        legend = ax.legend(loc='upper left', shadow=False)
+
+        pl.ylim(ymin=1000, ymax=5000)
+        pl.xlabel("mean PSNR")
+        pl.ylabel("Bitrate")
+        pl.title(videoFolder)
+        pl.draw();
+        pl.savefig(videoOutputPath+"/mean_psnr.png");
+
         print("asd")
 
 
