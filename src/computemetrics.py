@@ -7,6 +7,7 @@ import shutil
 import pylab
 import PSNR
 import FileSplitter
+import BDMetric
 
 def listdir_nohidden(path):
     for f in os.listdir(path):
@@ -137,5 +138,26 @@ for videoFolder in videoFolders:
             print("H265 mean psnr: " + str(meanpsnr) + " - Bitrate: " + str(bitrate) + " - Folder" + h265Path)
             shutil.rmtree(os.path.join(h265Path, "tmp"))
 
-print("Finished")
+    for output_video_path in listdir_nohidden(outputPath):
+        av1_result_path = os.path.join(outputPath, output_video_path, "av1_psnr.pickle")
+        h265_result_path = os.path.join(outputPath, output_video_path, "h265_psnr.pickle")
+
+        metric_set_1 = []
+        metric_set_2 = []
+
+        with open(av1_result_path, 'rb') as f:
+            av1_psnr_results = pickle.load(f)
+
+            for result in av1_psnr_results:
+                metric_set_1.append([result['bitrate'], result['meanpsnr']])
+
+        with open(h265_result_path, 'rb') as f:
+            h265_psnr_results = pickle.load(f)
+
+            for result in h265_psnr_results:
+                metric_set_2.append([result['bitrate'], result['meanpsnr']])
+
+        bdsnr = BDMetric.bdsnr(metric_set_1, metric_set_2)
+        print("asd")
+
 
