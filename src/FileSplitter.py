@@ -11,6 +11,8 @@ def splitVideoIntoFrames(filename):
     tmpDir = os.path.dirname(filename) + "/tmp"
     if not os.path.exists(tmpDir):
         os.makedirs(tmpDir)
+    else:
+        return
 
     print("splitting file into frames: " + filename)
     subprocess.call(["ffmpeg", "-i", filename, "" + tmpDir + "/%d.bmp"] )
