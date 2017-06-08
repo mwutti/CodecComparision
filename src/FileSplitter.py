@@ -15,6 +15,8 @@ def splitVideoIntoFrames(filename):
         return
 
     print("splitting file into frames: " + filename)
-    subprocess.call(["ffmpeg", "-i", filename, "" + tmpDir + "/%d.bmp"] )
+    FNULL = open(os.devnull, 'w')
+    subprocess.call(["ffmpeg", "-i", filename, "" + tmpDir + "/%d.bmp"], stderr=FNULL)
+    print("done ...")
 
     return
