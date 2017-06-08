@@ -4,6 +4,7 @@ import numpy
 import scipy.misc
 import pickle
 import shutil
+import pylab
 import PSNR
 import FileSplitter
 
@@ -78,6 +79,7 @@ for videoFolder in videoFolders:
             # compute psnr && remove tmp folder for av1
             AV1Tmpfiles = sorted(listdir_nohidden(os.path.join(av1Path, "tmp")))
 
+            print("computing psnrs for each frame")
             for i in range(1, len(RAWFiles)):
                 imageRaw = scipy.misc.imread(os.path.join(rawPath, "tmp", RAWFiles[i]), flatten=True).astype(numpy.float32)
                 imageEnc = scipy.misc.imread(os.path.join(av1Path, "tmp", AV1Tmpfiles[i]), flatten=True).astype(numpy.float32)
@@ -95,7 +97,7 @@ for videoFolder in videoFolders:
             else:
                 with open(outFile, 'rb') as f:
                     tmpresult = pickle.load(f)
-                    tmpresult.append(result)
+                    tmpresult.append(result[0])
                 with open(outFile, 'wb') as f:
                     pickle.dump(tmpresult, f, pickle.HIGHEST_PROTOCOL)
 
@@ -110,6 +112,7 @@ for videoFolder in videoFolders:
             # compute psnr && remove tmp folder for av1
             H265Tmpfiles = sorted(listdir_nohidden(os.path.join(h265Path, "tmp")))
 
+            print("computing psnrs for each frame")
             for i in range(1, len(RAWFiles)):
                 imageRaw = scipy.misc.imread(os.path.join(rawPath, "tmp", RAWFiles[i]), flatten=True).astype(numpy.float32)
                 imageEnc = scipy.misc.imread(os.path.join(h265Path, "tmp", H265Tmpfiles[i]), flatten=True).astype(numpy.float32)
@@ -134,10 +137,4 @@ for videoFolder in videoFolders:
             print("H265 mean psnr: " + str(meanpsnr) + " - Bitrate: " + str(bitrate) + " - Folder" + h265Path)
             shutil.rmtree(os.path.join(h265Path, "tmp"))
 
-print("test")
-#image1 = scipy.misc.imread(image_ref1, flatten=True).astype(numpy.float32)
-#image2 = scipy.misc.imread(image_ref2, flatten=True).astype(numpy.float32)
-
-
-
-
+print("Finished")
