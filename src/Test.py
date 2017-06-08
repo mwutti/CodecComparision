@@ -1,7 +1,7 @@
 import os, sys
 import math
 import numpy
-import PSNR
+# import PSNR
 import scipy.misc
 
 
