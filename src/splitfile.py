@@ -1,15 +1,8 @@
 # from subprocess import call
 
 import os
-import sys
 import subprocess
 
-
-if len(sys.argv) != 5:
-    print("must have 4 arguments: #" + str(len(sys.argv) - 1))
-    sys.exit();
-
-args = sys.argv;
 
 def splitVideoIntoFrames(filename):
 
