@@ -20,6 +20,10 @@ working_directory = os.path.dirname(os.path.abspath(__file__))
 videoFolders = os.listdir(os.path.join(working_directory, input_folder))
 
 for videoFolder in videoFolders:
+    videoFolderPath = os.path.join(working_directory, input_folder, videoFolder)
+    rawPath = os.path.join(videoFolderPath, "raw")
+    av1Path = os.path.join(videoFolderPath, "av1")
+    h265Path = os.path.join(videoFolderPath, "h265")
     print(videoFolder)
 
 
