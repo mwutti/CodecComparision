@@ -136,7 +136,7 @@ for videoFolder in videoFolders:
             else:
                 with open(outFile, 'rb') as f:
                     h265results = pickle.load(f)
-                    h265results.append(result)
+                    h265results.append(result[0])
                 with open(outFile, 'wb') as f:
                     pickle.dump(h265results, f, pickle.HIGHEST_PROTOCOL)
 
