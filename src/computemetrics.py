@@ -143,49 +143,56 @@ for videoFolder in videoFolders:
             print("H265 mean psnr: " + str(meanpsnr) + " - Bitrate: " + str(bitrate) + " - Folder" + h265Path)
             shutil.rmtree(os.path.join(h265Path, "tmp"))
 
-    for output_video_path in listdir_nohidden(outputPath):
-        av1_result_path = os.path.join(outputPath, output_video_path, "av1_psnr.pickle")
-        h265_result_path = os.path.join(outputPath, output_video_path, "h265_psnr.pickle")
+for output_video_path in listdir_nohidden(outputPath):
+    av1_result_path = os.path.join(outputPath, output_video_path, "av1_psnr.pickle")
+    h265_result_path = os.path.join(outputPath, output_video_path, "h265_psnr.pickle")
 
-        metric_set_1 = []
-        metric_set_2 = []
+    metric_set_1 = []
+    metric_set_2 = []
+    av1_psnr_results = []
+    h265_psnr_results = []
 
-        with open(av1_result_path, 'rb') as f:
-            av1_psnr_results = pickle.load(f)
+    with open(av1_result_path, 'rb') as f:
+        av1_psnr_results = pickle.load(f)
 
-            for result in av1_psnr_results:
-                metric_set_1.append([result['bitrate'], result['meanpsnr']])
+        for result in av1_psnr_results:
+            metric_set_1.append([result['bitrate'], result['meanpsnr']])
 
-        with open(h265_result_path, 'rb') as f:
-            h265_psnr_results = pickle.load(f)
+    with open(h265_result_path, 'rb') as f:
+        h265_psnr_results = pickle.load(f)
 
-            for result in h265_psnr_results:
-                metric_set_2.append([result['bitrate'], result['meanpsnr']])
+        for result in h265_psnr_results:
+            metric_set_2.append([result['bitrate'], result['meanpsnr']])
 
-        bdsnr = BDMetric.bdsnr(metric_set_1, metric_set_2)
+    bdsnr = BDMetric.bdsnr(metric_set_1, metric_set_2)
 
-        rate1 = [x[0] for x in metric_set_1]
-        psnr1 = [x[1] for x in metric_set_1]
-        rate2 = [x[0] for x in metric_set_2]
-        psnr2 = [x[1] for x in metric_set_2]
+    # rate1 = [x[0] for x in metric_set_1]
+    # psnr1 = [x[1] for x in metric_set_1]
+    # rate2 = [x[0] for x in metric_set_2]
+    # psnr2 = [x[1] for x in metric_set_2]
 
-        fig, ax = pl.subplots()
+    psnr1 = [x[0] for x in metric_set_1]
+    rate1 = [x[1] for x in metric_set_1]
+    psnr2 = [x[0] for x in metric_set_2]
+    rate2 = [x[1] for x in metric_set_2]
 
-        newPsnr1 = numpy.linspace(min(psnr1), max(psnr1), 100)
-        ax.plot(newPsnr1, spline(psnr1, rate1, newPsnr1), label="AV1")
+    fig, ax = pl.subplots()
 
-        newPsnr2 = numpy.linspace(min(psnr2), max(psnr2), 100)
-        ax.plot(newPsnr2, spline(psnr2, rate2, newPsnr2), label="H265")
+    newPsnr1 = numpy.linspace(min(psnr1), max(psnr1), 100)
+    ax.plot(newPsnr1, spline(psnr1, rate1, newPsnr1), label="AV1")
 
-        legend = ax.legend(loc='upper left', shadow=False)
+    newPsnr2 = numpy.linspace(min(psnr2), max(psnr2), 100)
+    ax.plot(newPsnr2, spline(psnr2, rate2, newPsnr2), label="H265")
 
-        pl.ylim(ymin=1000, ymax=5000)
-        pl.xlabel("mean PSNR")
-        pl.ylabel("Bitrate")
-        pl.title(videoFolder)
-        pl.draw();
-        pl.savefig(videoOutputPath+"/mean_psnr.png");
+    legend = ax.legend(loc='upper left', shadow=False)
 
-        print("asd")
+    # pl.xlim(ymin=1000, ymax=5000)
+    pl.ylabel("mean PSNR (dB)")
+    pl.xlabel("Bitrate")
+    pl.title(videoFolder + " - BDSNR: " + str(bdsnr))
+    pl.draw();
+    pl.savefig(os.path.join(working_directory,output_folder,output_video_path, "mean_psnr.png"));
+
+    print(output_video_path + " - " + str(bdsnr))
 
 
