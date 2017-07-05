@@ -69,9 +69,16 @@ The PSNR values of the av1 and h265 videos are stored in **.pickle** files for f
  
 ## Rough Overview
 
-First we check for correct number of parameters and a valid [folder structure](#source-videos)
+First we check for correct number of parameters and a valid [folder/file structure](#source-videos). After that we create in each folder a tmp folder. The tmp folder will hold all frames which are extracted with ffmpeg. We need those frames for calculation purposes. Once we are done with our calculations we save the results to .pickle files and delete those tmp folders except the tmp folder in the raw folder. We repeat this step for every video in the source folder. At the end we remove the last tmp folder in 'raw'. 
 
+Once ever calculation is done and the tmp folders are removed we read the previously created pickle files, calculate the overall Bjontegaard Delta and plot the metric. Due to the smoothing of the curve with Numpys linspace function it may seem like something went during calculation which is not the case (e.g. first two bitrate have same result and the third is higher and thus we have a convex curve between the first two).
 
+## Adding a new Metric
+
+As of now we implemented PSNR and Bjontegaard Delta. If you which to add a new metric calculation you have need to change/add after following lines:
+
+1. Line 9 - import your python function
+2. Line 92 & 125 - append the intermediate result array 
 
 ## The MIT License
 
