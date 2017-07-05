@@ -12,11 +12,7 @@ def bdsnr(metric_set1, metric_set2):
   code adapted from code written by : (c) 2010 Giuseppe Valenzise
   http://www.mathworks.com/matlabcentral/fileexchange/27798-bjontegaard-metric/content/bjontegaard.m
   """
-  # pylint: disable=too-many-locals
-  # numpy seems to do tricks with its exports.
-  # pylint: disable=no-member
-  # map() is recommended against.
-  # pylint: disable=bad-builtin
+
   rate1 = [x[0] for x in metric_set1]
   psnr1 = [x[1] for x in metric_set1]
   rate2 = [x[0] for x in metric_set2]

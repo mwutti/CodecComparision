@@ -9,8 +9,5 @@ def psnr(image1, image2):
     return 20 * math.log10(max_value / math.sqrt(mse))
 
 
-def mean_psnr_for_video(video_name_1, bitrate):
-    print("Hello")
-
 
 

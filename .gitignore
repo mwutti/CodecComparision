@@ -3,3 +3,5 @@
 *.mp4
 *.y4m
 src/data/*
+.idea/
+*.pickle

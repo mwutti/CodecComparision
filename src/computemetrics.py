@@ -166,11 +166,6 @@ for output_video_path in listdir_nohidden(outputPath):
 
     bdsnr = BDMetric.bdsnr(metric_set_1, metric_set_2)
 
-    # rate1 = [x[0] for x in metric_set_1]
-    # psnr1 = [x[1] for x in metric_set_1]
-    # rate2 = [x[0] for x in metric_set_2]
-    # psnr2 = [x[1] for x in metric_set_2]
-
     psnr1 = [x[0] for x in metric_set_1]
     rate1 = [x[1] for x in metric_set_1]
     psnr2 = [x[0] for x in metric_set_2]
@@ -186,7 +181,6 @@ for output_video_path in listdir_nohidden(outputPath):
 
     legend = ax.legend(loc='upper left', shadow=False)
 
-    # pl.xlim(ymin=1000, ymax=5000)
     pl.ylabel("mean PSNR (dB)")
     pl.xlabel("Bitrate")
     pl.title(videoFolder + " - BDSNR: " + str(bdsnr))

@@ -1,5 +1,3 @@
-# from subprocess import call
-
 import os
 import subprocess
 
