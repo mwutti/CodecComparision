@@ -1,6 +1,6 @@
- #Installation and Usage
+# Installation and Usage
 
- ##Requirements
+## Requirements
 The Project is implemented and tested with **Python 3.6.1**. 
 
 The following packages must be installed:
@@ -13,12 +13,12 @@ Use **pip install <package-name>** to install the required packages.
 
 The script will create **ffmpeg** subprocesses. Make sure that **ffmpeg** is installed and available in your **$PATH**
 
-##Usage
+## Usage
 **$ python computemetrics.py <input-folder> <output-folder>**
 
   * input-folder: Source Video Folder name located at the same directory as computemetrics.py
   * output-folder: Folder name of outputData located at the same directory as computemetrics.py(must not exist)
-##Source Videos
+## Source Videos
 
 Source Videos must be placed in one folder at the same directory as computemetrics.py. You will provide the foldername 
 as a parameter to the script. Create a subfolder for each video you want to analyse. 
@@ -49,7 +49,7 @@ Example folder Structure:
       * h265
         * ...
 
-##Output Data
+## Output Data
 For every source video folder the script will create an subfolder in **<output-folder>** with the PSNR-Results.
 
 Example output folder structure
@@ -67,6 +67,6 @@ Example output folder structure
 The PSNR values of the av1 and h265 videos are stored in **.pickle** files for further usage. The computed BD-Curves with
  the BDSNR-values are stored stored in **mean_psnr.png**.
  
-#Documentation
+# Documentation
 
 
