@@ -5,3 +5,4 @@
 src/data/*
 .idea/
 *.pickle
+__pycache__/
