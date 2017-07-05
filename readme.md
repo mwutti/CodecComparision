@@ -67,6 +67,8 @@ Example output folder structure
 The PSNR values of the av1 and h265 videos are stored in **.pickle** files for further usage. The computed BD-Curves with
  the BDSNR-values are stored stored in **mean_psnr.png**.
  
+# Documentation
+
 ## Rough Overview
 
 First we check for correct number of parameters and a valid [folder/file structure](#source-videos). After that we create in each folder a tmp folder. The tmp folder will hold all frames which are extracted with ffmpeg. We need those frames for calculation purposes. Once we are done with our calculations we save the results to .pickle files and delete those tmp folders except the tmp folder in the raw folder. We repeat this step for every video in the source folder. At the end we remove the last tmp folder in 'raw'. 
@@ -88,7 +90,7 @@ As of now we implemented PSNR and Bjontegaard Delta. If you which to add a new m
 4. Line 96 & 129 - add your results to the result json object or store them in a different pickle file (99ff & 132ff)
 5. Line 147ff - depending on your choice in step 4 you need to read additional files or change line 159 & 165
 
-## The MIT License
+# The MIT License
 
 Copyright (c) 2017 Michael Wutti, Günther Kössler
 
