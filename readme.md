@@ -77,8 +77,16 @@ Once ever calculation is done and the tmp folders are removed we read the previo
 
 As of now we implemented PSNR and Bjontegaard Delta. If you which to add a new metric calculation you have need to change/add after following lines:
 
+### Change:
 1. Line 9 - import your python function
 2. Line 92 & 125 - append the intermediate result array 
+
+### Add:
+1. Line 9 - import your python function
+2. Line 92 & 125 - create another intermediate result array and append it
+3. Line 94 & 127 - calc the mean of your intermediate result array
+4. Line 96 & 129 - add your results to the result json object or store them in a different pickle file (99ff & 132ff)
+5. Line 147ff - depending on your choice in step 4 you need to read additional files or change line 159 & 165
 
 ## The MIT License
 
